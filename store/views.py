@@ -53,9 +53,8 @@ Book.objects.all()
 
 Book.objects.all()
 
-# Update a specific book (change the ID as needed)
 book = Book.objects.get(id=1)
-book.title = "The Palace of Illusions"
+book.title = "The God of Small Things"
 book.author= "Arundhati Roy"
 book.price = 100.00
 book.save()
