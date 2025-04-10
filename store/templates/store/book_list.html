@@ -1,0 +1,211 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div class="book-page-wrapper">
+    <div class="container book-container">
+        <div class="book-header">
+            <h2><i class="fa-solid fa-store"></i>BOOKS ARENA</h2>
+            <div class="search-sort">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search books...">
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="book-grid">
+            {% for book in books %}
+            <div class="book-card">
+                <div class="book-cover">
+                    <i class=""></i>
+                </div>
+                <div class="book-details">
+                    <h3>{{ book.title }}</h3>
+                    <p class="author">by {{ book.author }}</p>
+                    <div class="book-meta">
+                        <span class="price">₹{{ book.price }}</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </span>
+                    </div>
+                    <a href="{% url 'add_to_cart' book.id %}" class="btn btn-primary">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #6B46C1, #805AD5);
+        min-height: 100vh;
+    }
+
+    .book-page-wrapper {
+        padding: 3rem 1rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .book-container {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 1100px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        color: #fff;
+    }
+
+    .book-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .book-header h2 {
+        color: #fff;
+        font-size: 1.8rem;
+        margin: 0;
+    }
+
+    .book-header h2 i {
+        margin-right: 10px;
+    }
+
+    .search-sort {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        color: #ccc;
+    }
+
+    .search-box input {
+        padding: 8px 15px 8px 35px;
+        border: none;
+        border-radius: 8px;
+        width: 200px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        outline: none;
+    }
+
+  
+
+    .book-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .book-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(6px);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+   
+ 
+    .book-details {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+  
+    .author {
+        color: #ddd;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .book-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #FBBF24;
+        font-size: 1.1rem;
+    }
+
+    .rating {
+        color: #FBBF24;
+    }
+
+    .rating i:last-child {
+        color: #999;
+    }
+
+    .btn-primary {
+        background-color: #A78BFA;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background-color: #C4B5FD;
+    }
+
+    @media (max-width: 600px) {
+        .book-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .search-sort {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        .book-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

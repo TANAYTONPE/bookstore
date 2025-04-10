@@ -1,0 +1,158 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div class="cart-container">
+    <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+
+    {% if books %}
+    <div class="book-list">
+        {% for book in books %}
+        <div class="book-item">
+            <div class="book-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p class="author">by {{ book.author }}</p>
+                <p class="price">₹{{ book.price }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <p>Your cart is empty</p>
+    </div>
+    {% endif %}
+
+    <a href="{% url 'book_list' %}" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Books
+    </a>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        background-size: 400% 400%;
+        animation: cartGradient 15s ease infinite;
+    }
+
+    @keyframes cartGradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .cart-container {
+        max-width: 700px;
+        margin: 60px auto;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 30px;
+        color: #fff;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        animation: fadeSlide 0.8s ease;
+    }
+
+    @keyframes fadeSlide {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cart-container h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
+        color: #fff;
+    }
+
+    .book-list {
+        margin-top: 20px;
+    }
+
+    .book-item {
+        display: flex;
+        gap: 20px;
+        background: rgba(255,255,255,0.05);
+        padding: 15px 20px;
+        border-radius: 15px;
+        align-items: center;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .book-item:hover {
+        background: rgba(255,255,255,0.12);
+        transform: scale(1.02);
+    }
+
+    .book-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #ffd700;
+        box-shadow: 0 4px 10px rgba(255,255,255,0.1);
+    }
+
+    .book-info h3 {
+        font-size: 20px;
+        margin: 0;
+        color: #fff;
+    }
+
+    .author {
+        font-size: 14px;
+        color: #d0d0d0;
+        margin: 4px 0;
+    }
+
+    .price {
+        font-size: 16px;
+        font-weight: bold;
+        color: #00ffcc;
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: 40px 0;
+        font-size: 18px;
+        color: #eee;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 30px;
+        font-size: 16px;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        transition: 0.3s;
+    }
+
+    .back-link:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateX(-5px);
+    }
+
+    .back-link i {
+        margin-right: 6px;
+    }
+
+    @media (max-width: 600px) {
+        .book-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .book-icon {
+            margin-bottom: 10px;
+        }
+    }
+</style>
+{% endblock %}

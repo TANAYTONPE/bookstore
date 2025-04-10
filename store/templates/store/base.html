@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}GREAT INDIAN BOOKSTORE{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-color: #4a6fa5;
+      --secondary-color: #464695;
+      --accent-color: #4576d7;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: white;
+      display: flex;
+      align-items: center;
+    }
+
+    .hamburger {
+      font-size: 1.5rem;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 1.5rem;
+      min-height: calc(100vh - 100px);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar a {
+      display: block;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: white;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid white;
+      border-radius: 5px;
+      transition: var(--transition);
+    }
+
+    .sidebar a:hover {
+      background-color: white;
+      color: var(--primary-color);
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+      position: absolute;
+      z-index: 999;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .main-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 220px;
+        height: 100vh;
+        z-index: 999;
+      }
+
+      .main-content {
+        padding: 1rem;
+      }
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <header class="header">
+    <div style="display: flex; align-items: center;">
+      <button class="hamburger" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a href="{% url 'book_list' %}" class="logo">THE GREAT INDIAN BOOKSTORE</a>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <aside class="sidebar hidden" id="sidebar">
+      <h3>Menu</h3>
+      <a href="{% url 'book_list' %}"><i class="fas fa-book"></i> Browse Bookstore</a>
+      <a href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> My Cart</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      {% endif %}
+    </aside>
+
+    <main class="main-content">
+      {% block messages %}
+      {% if messages %}
+      <div class="container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endblock %}
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="copyright">
+        &copy; {% now "Y" %} Book Store.
+      </div>
+    </div>
+  </footer>
+
+  {% block extra_js %}{% endblock %}
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        setTimeout(() => {
+          alert.style.opacity = '0';
+          setTimeout(() => alert.remove(), 300);
+        }, 5000);
+      });
+    });
+  </script>
+</body>
+</html>
